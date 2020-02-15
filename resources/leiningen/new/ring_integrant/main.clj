@@ -1,16 +1,16 @@
-(ns {{name}}.main
+(ns {{name}} .main
   (:require
-    [{{name}}.logging :as log]
-    [{{name}}.routes :as routes]
-    [{{name}}.server :as server]
-    [{{name}}.store :as store]
+    [{{name}} .logging :as log]
+    [{{name}} .routes :as routes]
+    [{{name}} .http :as http]
+    [{{name}} .store :as store]
 
     [integrant.core :as ig])
   (:gen-class))
 
 (defn config []
   {::routes/handler {}
-   ::server/jetty   {:port    (or (System/getenv "PORT") "9000")
+   ::http/jetty     {:port    (or (System/getenv "PORT") "9000")
                      :handler (ig/ref ::routes/handler)}
    ::store/db       {}})
 
