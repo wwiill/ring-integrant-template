@@ -9,7 +9,7 @@
   (:gen-class))
 
 (defn config []
-  {::routes/handler {}
+  {::routes/handler {:db (ig/ref ::store/db)}
    ::http/jetty     {:port    (or (System/getenv "PORT") "9000")
                      :handler (ig/ref ::routes/handler)}
    ::store/db       {}})

@@ -8,16 +8,16 @@
     [ring.middleware.format :refer [wrap-restful-format]]
     [compojure.core :refer [routes GET POST]]))
 
-(defn app-routes [store]
+(defn app-routes [db]
   (routes
     (GET "/_system/health" [] {:status 200 :body {:message "System healthy"}})
     (GET "/things" [] {:status 200 :body []})
     (POST "/things" [] {:status 200})))
 
 (defmethod ig/init-key ::handler
-  [_ {:keys [store]}]
+  [_ {:keys [db]}]
   (log/info nil "Initialising handler")
-  (-> (app-routes store)
+  (-> (app-routes db)
       (params/wrap-params)
       (wrap-keyword-params)
       (wrap-restful-format :formats [:transit-json :json :edn])))
