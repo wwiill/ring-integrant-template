@@ -10,12 +10,18 @@
   (let [data {:name      name
               :sanitized (name-to-path name)}]
     (main/info "Generating fresh 'lein new' ring-integrant project.")
-    (doseq [f ["main.clj" "http.clj" "logging.clj" "routes.clj" "store.clj"]]
-      (->files data [(str "src/{{sanitized}}/" f) (render f data)]))
-    (->files data ["README.md" (render "README.md" data)])
-    (->files data ["deps.edn" (render "deps.edn" data)])
-    (->files data [".gitignore" (render "gitignore" data)])
-    (->files data ["resources/logback.xml" (render "logback.xml" data)])
-    (->files data ["dev/dev.clj" (render "dev.clj" data)])
-    (->files data ["project.clj" (render "project.clj" data)])
-    (->files data [(str "test/{{sanitized}}/main_test.clj") (render "main_test.clj" data)])))
+    (->files data
+             ["project.clj" (render "project.clj" data)]
+             ["deps.edn" (render "deps.edn" data)]
+             ["README.md" (render "README.md" data)]
+             [".gitignore" (render "gitignore" data)]
+
+             ["src/{{sanitized}}/main.clj" (render "main.clj" data)]
+             ["src/{{sanitized}}/http.clj" (render "http.clj" data)]
+             ["src/{{sanitized}}/logging.clj" (render "logging.clj" data)]
+             ["src/{{sanitized}}/routes.clj" (render "routes.clj" data)]
+             ["src/{{sanitized}}/store.clj" (render "store.clj" data)]
+
+             ["resources/logback.xml" (render "logback.xml" data)]
+             ["dev/dev.clj" (render "dev.clj" data)]
+             ["test/{{sanitized}}/main_test.clj" (render "main_test.clj" data)])))

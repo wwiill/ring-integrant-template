@@ -1,4 +1,4 @@
-(ns {{name}} .main
+(ns {{name}}.main
   (:require
     [{{name}}.logging :as log]
     [{{name}}.routes :as routes]
