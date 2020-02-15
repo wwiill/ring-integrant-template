@@ -4,7 +4,12 @@ A Leiningen template for FIXME.
 
 ## Usage
 
+    $ lein install
+    
+## Create a new project
+
     $ lein new ring-integrant my-app
+    $ cd my-app
 
 FIXME
 
