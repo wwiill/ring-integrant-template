@@ -10,7 +10,7 @@
   (let [data {:name      name
               :sanitized (name-to-path name)}]
     (main/info "Generating fresh 'lein new' ring-integrant project.")
-    (doseq [f ["main.clj" "server.clj" "logging.clj" "routes.clj" "store.clj"]]
+    (doseq [f ["main.clj" "http.clj" "logging.clj" "routes.clj" "store.clj"]]
       (->files data [(str "src/{{sanitized}}/" f) (render f data)]))
     (->files data ["README.md" (render "README.md" data)])
     (->files data ["deps.edn" (render "deps.edn" data)])

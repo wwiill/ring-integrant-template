@@ -1,4 +1,4 @@
-(ns {{name}}.server
+(ns {{name}}.http
   (:require
     [{{name}}.logging :as log]
 
