@@ -2,9 +2,19 @@
   (:require
     [clojure.tools.logging :as log])
   (:import
-    [org.slf4j MDC]))
+    [org.slf4j MDC LoggerFactory]
+    [ch.qos.logback.classic Logger Level]))
 
-(defmacro with-logging-context [context & body]
+(defn reset-root-log-level
+  ([level]
+   (reset-root-log-level nil level))
+  ([logger-name level]
+   (if-let [logger ^Logger (.getLogger (LoggerFactory/getILoggerFactory)
+                                       (or logger-name Logger/ROOT_LOGGER_NAME))]
+           (.setLevel logger (Level/valueOf level))
+           (log/warn "No logger called " logger-name " found, not changing level"))))
+
+(defmacro with-mdc-context [context & body]
   `(let [wrapped-context# ~context
          ctx# (MDC/getCopyOfContextMap)]
      (try
@@ -17,19 +27,19 @@
            (MDC/clear))))))
 
 (defmacro debug [ctx & args]
-  `(with-logging-context ~ctx
+  `(with-mdc-context ~ctx
                          (log/debug ~@args)))
 
 (defmacro info [ctx & args]
-  `(with-logging-context ~ctx
+  `(with-mdc-context ~ctx
                          (log/info ~@args)))
 
 (defmacro warn [ctx & args]
-  `(with-logging-context ~ctx
+  `(with-mdc-context ~ctx
                          (log/warn ~@args)))
 
 (defmacro error [ctx & args]
-  `(with-logging-context ~ctx
+  `(with-mdc-context ~ctx
                          (log/error ~@args)))
 
 (defmacro d
@@ -39,4 +49,4 @@
    `(let [v# ~value]
       (debug v#)
       v#))
-  ([context value] `(with-logging-context ~context (d ~value))))
+  ([context value] `(with-mdc-context ~context (d ~value))))

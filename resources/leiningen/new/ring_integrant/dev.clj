@@ -1,16 +1,17 @@
 (ns dev
   (:require
-    [{{name}}.store :as store]
-    [{{name}}.routes :as routes]
-    [{{name}}.http :as http]
+    [{{name}}.app :as app]
     [{{name}}.main :as main]
-    [integrant.repl :refer [set-prep! clear go halt prep init reset reset-all] :as ig-repl]
-    [integrant.core :as ig]))
+    [{{name}}.server :as server]
+    [{{name}}.store :as store]
+
+    [integrant.core :as ig]
+    [integrant.repl :refer [set-prep! clear go halt prep init reset reset-all] :as ig-repl]))
 
 (defn dev-config []
-  {::routes/handler {:db (ig/ref ::store/db)}
-   ::http/jetty     {:port    (or (System/getenv "PORT") "9000")
-                     :handler (ig/ref ::routes/handler)}
-   ::store/db       {}})
+  {::app/handler  {:db (ig/ref ::store/db)}
+   ::server/jetty {:port    (or (System/getenv "PORT") "9000")
+                   :handler (ig/ref ::app/handler)}
+   ::store/db     {}})
 
 (ig-repl/set-prep! dev-config)

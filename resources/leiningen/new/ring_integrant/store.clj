@@ -1,7 +1,6 @@
 (ns {{name}}.store
   (:require
     [{{name}}.logging :as log]
-    
     [integrant.core :as ig]))
 
 (defmethod ig/init-key ::db

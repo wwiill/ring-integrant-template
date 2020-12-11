@@ -1,7 +1,6 @@
-(ns {{name}}.http
+(ns {{name}}.server
   (:require
     [{{name}}.logging :as log]
-
     [integrant.core :as ig]
     [ring.adapter.jetty :refer [run-jetty]]))
 
@@ -9,11 +8,10 @@
   [_ {:keys [port handler]}]
   (log/info {:port port} "Starting jetty")
 
-  (run-jetty
-    handler
-    {:join?                false
-     :send-server-version? false
-     :port                 (Integer/parseInt port)}))
+  (run-jetty handler
+             {:join?                false
+              :send-server-version? false
+              :port                 (Integer/parseInt port)}))
 
 (defmethod ig/halt-key! ::jetty
   [_ jetty]

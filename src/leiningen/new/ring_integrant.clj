@@ -16,10 +16,10 @@
              ["README.md" (render "README.md" data)]
              [".gitignore" (render "gitignore" data)]
 
-             ["src/{{sanitized}}/main.clj" (render "main.clj" data)]
-             ["src/{{sanitized}}/http.clj" (render "http.clj" data)]
+             ["src/{{sanitized}}/app.clj" (render "app.clj" data)]
              ["src/{{sanitized}}/logging.clj" (render "logging.clj" data)]
-             ["src/{{sanitized}}/routes.clj" (render "routes.clj" data)]
+             ["src/{{sanitized}}/main.clj" (render "main.clj" data)]
+             ["src/{{sanitized}}/server.clj" (render "server.clj" data)]
              ["src/{{sanitized}}/store.clj" (render "store.clj" data)]
 
              ["resources/logback.xml" (render "logback.xml" data)]
