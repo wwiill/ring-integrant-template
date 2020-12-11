@@ -2,16 +2,75 @@
   (:require
     [{{name}}.logging :as log]
     [integrant.core :as ig]
-    [reitit.core :as reitit]
-    [reitit.ring :as reitit-ring]
+    [malli.util :as mu]
+    [muuntaja.core :as m]
+    [reitit.coercion.malli :as coercion-malli]
+    [reitit.dev.pretty :as pretty]
     [reitit.swagger :as swagger]
-    [reitit.swagger-ui :as swagger-ui]))
+    [reitit.swagger-ui :as swagger-ui]
+    [reitit.ring.coercion :as coercion]
+    [reitit.ring.middleware.muuntaja :as muuntaja]
+    [reitit.ring.middleware.exception :as exception]
+    [reitit.ring.middleware.parameters :as parameters]
+    [reitit.ring :as reitit-ring]))
 
 (defn router [db]
   (reitit-ring/router
-    [["/api"
-      ["/swagger.json"
-       {:get {:handler (swagger/create-swagger-handler)}}]]]))
+    ["/api"
+     {:swagger    {:id :my-app}
+      :middleware [swagger/swagger-feature]}
+
+     ["/swagger.json"
+      {:get {:no-doc  true
+             :swagger {:info {:title "my-api"}}
+             :handler (swagger/create-swagger-handler)}}]
+
+     ["/plus"
+      {:get  {:summary    "plus with malli query parameters"
+              :parameters {:query [:map [:x int?] [:y int?]]}
+              :responses  {200 {:body [:map [:total int?]]}}
+              :handler    (fn [{{{:keys [x y]} :query} :parameters}]
+                              {:status 200
+                               :body   {:total (+ x y)}})}
+       :post {:summary    "plus with malli body parameters"
+              :parameters {:body [:map [:x int?] [:y int?]]}
+              :responses  {200 {:body [:map [:total int?]]}}
+              :handler    (fn [{{{:keys [x y]} :body} :parameters}]
+                              {:status 200
+                               :body   {:total (+ x y)}})}}]]
+
+    {;;:reitit.middleware/transform dev/print-request-diffs ;; pretty diffs
+     ;;:validate spec/validate ;; enable spec validation for route data
+     ;;:reitit.spec/wrap spell/closed ;; strict top-level validation
+     :exception pretty/exception
+     :data      {:coercion   (coercion-malli/create
+                               {;; set of keys to include in error messages
+                                :error-keys       #{#_:type :coercion :in :schema :value :errors :humanized #_:transformed}
+                                ;; schema identity function (default: close all map schemas)
+                                :compile          mu/closed-schema
+                                ;; strip-extra-keys (effects only predefined transformers)
+                                :strip-extra-keys true
+                                ;; add/set default values
+                                :default-values   true
+                                ;; malli options
+                                :options          nil})
+                 :muuntaja   m/instance
+                 :middleware [;; swagger feature
+                              swagger/swagger-feature
+                              ;; query-params & form-params
+                              parameters/parameters-middleware
+                              ;; content-negotiation
+                              muuntaja/format-negotiate-middleware
+                              ;; encoding response body
+                              muuntaja/format-response-middleware
+                              ;; exception handling
+                              exception/exception-middleware
+                              ;; decoding request body
+                              muuntaja/format-request-middleware
+                              ;; coercing response bodys
+                              coercion/coerce-response-middleware
+                              ;; coercing request parameters
+                              coercion/coerce-request-middleware]}}))
 
 (defmethod ig/init-key ::handler
  [_ {:keys [db]}]
