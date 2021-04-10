@@ -1,18 +1,16 @@
 {:paths ["src" "resources"]
- :deps  {org.clojure/clojure                         {:mvn/version "1.10.1"}
-         integrant                                   {:mvn/version "0.8.0"}
-         org.eclipse.jetty/jetty-util                {:mvn/version "9.4.35.v20201120"}
-         org.eclipse.jetty/jetty-http                {:mvn/version "9.4.35.v20201120"}
-         org.eclipse.jetty/jetty-server              {:mvn/version "9.4.35.v20201120"}
-         ring/ring-jetty-adapter                     {:mvn/version "1.8.2"}
-         ring-middleware-format                      {:mvn/version "0.7.4"}
-         metosin/reitit                              {:mvn/version "0.5.10"}
+ :deps  {org.clojure/clojure                         {:mvn/version "1.10.3"}
          org.clojure/tools.logging                   {:mvn/version "1.0.0"}
          ch.qos.logback/logback-classic              {:mvn/version "1.2.3"}
-         ch.qos.logback.contrib/logback-jackson      {:mvn/version "0.1.5"}
          ch.qos.logback.contrib/logback-json-classic {:mvn/version "0.1.5"}
-         com.fasterxml.jackson.core/jackson-databind {:mvn/version "2.12.0"}
-         com.fasterxml.jackson.core/jackson-core     {:mvn/version "2.12.0"}}
+         ch.qos.logback.contrib/logback-jackson      {:mvn/version "0.1.5"}
+         com.fasterxml.jackson.core/jackson-databind {:mvn/version "2.12.2"}
+         com.fasterxml.jackson.core/jackson-core     {:mvn/version "2.12.2"}
+         integrant                                   {:mvn/version "0.8.0"}
+         ring/ring-jetty-adapter                     {:mvn/version "1.9.2"}
+         ring-middleware-format                      {:mvn/version "0.7.4"}
+         metosin/reitit                              {:mvn/version "0.5.12"}}
+         
  :aliases
         {:test    {:extra-paths ["test"]
                    :extra-deps  {org.clojure/test.check {:mvn/version "0.10.0"}}}
