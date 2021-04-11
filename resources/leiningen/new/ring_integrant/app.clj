@@ -23,21 +23,7 @@
      ["/swagger.json"
       {:get {:no-doc  true
              :swagger {:info {:title "my-api"}}
-             :handler (swagger/create-swagger-handler)}}]
-
-     ["/plus"
-      {:get  {:summary    "plus with malli query parameters"
-              :parameters {:query [:map [:x int?] [:y int?]]}
-              :responses  {200 {:body [:map [:total int?]]}}
-              :handler    (fn [{{{:keys [x y]} :query} :parameters}]
-                              {:status 200
-                               :body   {:total (+ x y)}})}
-       :post {:summary    "plus with malli body parameters"
-              :parameters {:body [:map [:x int?] [:y int?]]}
-              :responses  {200 {:body [:map [:total int?]]}}
-              :handler    (fn [{{{:keys [x y]} :body} :parameters}]
-                              {:status 200
-                               :body   {:total (+ x y)}})}}]]
+             :handler (swagger/create-swagger-handler)}}]]
 
     {;;:reitit.middleware/transform dev/print-request-diffs ;; pretty diffs
      ;;:validate spec/validate ;; enable spec validation for route data
