@@ -14,7 +14,6 @@
                  [com.fasterxml.jackson.core/jackson-core "2.12.5"]
                  [integrant "0.8.0"]
                  [ring/ring-jetty-adapter "1.9.4"]
-                 [ring-middleware-format "0.7.4"]
                  [metosin/reitit "0.5.15"]]
 
   :profiles {:dev     {:source-paths ["dev" "test"]

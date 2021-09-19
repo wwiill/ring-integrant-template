@@ -26,12 +26,8 @@
              :handler (swagger/create-swagger-handler)}}]]
 
     {;;:reitit.middleware/transform dev/print-request-diffs ;; pretty diffs
-     ;;:validate spec/validate ;; enable spec validation for route data
-     ;;:reitit.spec/wrap spell/closed ;; strict top-level validation
      :exception pretty/exception
-     {;; uncomment below to print request diffs in dev
-      ;:reitit.middleware/transform reitit.ring.middleware.dev/print-request-diffs
-      :data {:coercion   (coercion-malli/create
+     :data {:coercion   (coercion-malli/create
                            {;; set of keys to include in error messages
                             :error-keys       #{#_:type :coercion :in :schema :value :errors :humanized #_:transformed}
                             ;; schema identity function (default: close all map schemas)
@@ -64,7 +60,7 @@
                           coercion/coerce-response-middleware
 
                           ;; now hand off to route middleware and then to route handler
-                          ]}}}))
+                          ]}}))
 
 (defmethod ig/init-key ::handler
  [_ {:keys [db]}]
