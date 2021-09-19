@@ -67,9 +67,11 @@
  (log/info nil "Initialising handler")
  (reitit-ring/ring-handler
    (router db)
-   (reitit-ring/routes (swagger-ui/create-swagger-ui-handler {:path "/api" :url "/api/swagger.json"}))
-   (reitit-ring/create-default-handler
-     {:not-found (constantly {:status 404 :body "Not found"})})))
+   (reitit-ring/routes
+     (reitit-ring/redirect-trailing-slash-handler {:method :strip})
+     (swagger-ui/create-swagger-ui-handler {:path "/api" :url "/api/swagger.json"})
+     (reitit-ring/create-default-handler
+       {:not-found (constantly {:status 404 :body "Not found"})}))))
 
 (defmethod ig/halt-key! ::handler
  [_ handler]
