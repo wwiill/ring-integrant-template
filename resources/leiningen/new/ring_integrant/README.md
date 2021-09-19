@@ -24,6 +24,13 @@ Run that uberjar:
 
     $ curl --header "Accept: application/json" :9000/things
 
+## Libraries
+
+https://github.com/weavejester/integrant
+https://github.com/ring-clojure/ring
+https://github.com/ring-clojure/ring/tree/master/ring-jetty-adapter
+https://github.com/metosin/reitit
+
 ## License
 
 Copyright © 2020 {{name}}
