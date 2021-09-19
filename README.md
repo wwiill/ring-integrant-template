@@ -1,6 +1,12 @@
 # ring-integrant
 
-A Leiningen template for FIXME.
+A Leiningen template for API server featuring:
+
+- https://github.com/weavejester/integrant
+- https://github.com/ring-clojure/ring
+- https://github.com/ring-clojure/ring/tree/master/ring-jetty-adapter
+- https://github.com/metosin/reitit
+- https://github.com/metosin/malli
 
 ## Usage
 
